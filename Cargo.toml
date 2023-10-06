@@ -1,0 +1,12 @@
+[package]
+name = "regex"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+wai-bindgen-rust = "0.2.3"
+sedregex = "0.2.5"
