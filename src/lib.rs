@@ -8,21 +8,18 @@ pub struct Plugin;
 // apply" to include how many you tried
 impl plugin::Plugin for Plugin {
     fn handle_privmsg(msgs: Vec<String>) -> Option<String> {
-        if msgs.len() < 2 {
-            return None;
+        if let [.., target, r] = &msgs[..] {
+            sedregex::find_and_replace(target, &[r])
+                .map(Cow::into_owned)
+                .map(|s| {
+                    if s.eq(target) {
+                        return "Regex didn't do anything, idiot".to_owned();
+                    };
+                    s
+                })
+                .ok()
+        } else {
+            None
         }
-
-        let r = &msgs[msgs.len() - 1];
-        let target = &msgs[msgs.len() - 2];
-
-        sedregex::find_and_replace(target, &[r])
-            .map(Cow::into_owned)
-            .map(|s| {
-                if s.eq(target) {
-                    return "Regex didn't do anything, idiot".to_owned();
-                };
-                s
-            })
-            .ok()
     }
 }
